@@ -1,0 +1,27 @@
+services:
+  broker:
+    image: rabbitmq:4.0-management
+    ports:
+      - 1883:1883
+      - 5672:5672
+      - 15672:15672
+  clickhouse:
+    image: clickhouse
+    ports:
+      - 8123:8123
+      - 8443:8443
+      - 9004:9004
+      - 9005:9005
+    environment:
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=default
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - clickhouse-log:/var/log/clickhouse-server
+    cap_add:
+      - CAP_SYS_NICE
+  
+volumes:
+  clickhouse-data:
+  clickhouse-log:
